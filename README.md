@@ -55,9 +55,8 @@
 
 <p align="center">
   <a href="https://twitter.com/Kunal_098"><img alt="Twitter" src="https://img.shields.io/badge/Twitter-Kunal_098%20Verma-blue?style=flat-square&logo=twitter"></a>
-  <a href="https://www.instagram.com/kunal011010/"><img alt="Instagram" src="https://img.shields.io/badge/Instagram-kunal011010-blue?style=flat-square&logo=instagram"></a>
+  <a href="https://www.instagram.com/kunal011010/"><img alt="Instagram" src="https://img.shields.io/badge/Instagram-kunal011010-blue?style=flat-square&logo=instagram"><a>
   <a href="kunal34255@gmail.com"><img alt="Email" src="https://img.shields.io/badge/Email-kunal34255@gmail.com-blue?style=flat-square&logo=gmail"></a>
-  <a href="https://www.linkedin.com/in/kunal003/"><img alt="Email" src="https://img.shields.io/badge/Linkedin-kunal003-blue?style=flat-square&logo=linkedin"></a>
-  
+  <a href="https://www.linkedin.com/in/kunal003/"><img alt="linkedin" src="https://img.shields.io/badge/Linkedin-kunal003-blue?style=flat-square&logo=linkedin"></a>
 </p>
 
