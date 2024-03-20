@@ -17,6 +17,8 @@
   ![Bootstrap](https://img.shields.io/badge/-Bootstrap-333?style=flat&logo=bootstrap&logoColor=563D7C)
   ![React](https://img.shields.io/badge/-React-333?style=flat&logo=react)
   ![Tailwind CSS](https://img.shields.io/badge/-Tailwind%20CSS-333?style=flat&logo=Tailwind-CSS)
+  ![Express.js](https://img.shields.io/badge/-Express.js-333?style=flat&logo=express)
+  ![Node.js](https://img.shields.io/badge/-Node.js-333?style=flat&logo=node.js)
   ![NextJS](https://img.shields.io/badge/-NextJS-333?logo=Next.js)
   ![Material UI](https://img.shields.io/badge/-Material%20UI-333?style=flat&logo=Material-UI)
 - 📶 &nbsp;
