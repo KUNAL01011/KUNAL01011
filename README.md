@@ -21,8 +21,6 @@
   ![Node.js](https://img.shields.io/badge/-Node.js-333?style=flat&logo=node.js)
   ![NextJS](https://img.shields.io/badge/-NextJS-333?logo=Next.js)
   ![Material UI](https://img.shields.io/badge/-Material%20UI-333?style=flat&logo=Material-UI)
-- 📶 &nbsp;
-  ![FireStore](https://img.shields.io/badge/-FireStore-333?style=flat&logo=Firebase)
 - ⚙️ &nbsp;
   ![Git](https://img.shields.io/badge/-Git-333?style=flat&logo=git)
   ![GitHub](https://img.shields.io/badge/-GitHub-333?style=flat&logo=github)
@@ -57,8 +55,8 @@
 
 <p align="center">
   <a href="https://twitter.com/Kunal_098"><img alt="Twitter" src="https://img.shields.io/badge/Kunal_098%20Verma-blue?style=flat-square&logo=twitter"></a>
-  <a href="https://www.instagram.com/kunal011010/"><img alt="Instagram" src="https://img.shields.io/badge/Instagram-sahilverma.dev-blue?style=flat-square&logo=instagram"></a>
-  <a href="mailto:sahilverma.webdev@gmail.com"><img alt="Email" src="https://img.shields.io/badge/Email-sahilverma.webdev@gmail.com-blue?style=flat-square&logo=gmail"></a>
+  <a href="https://www.instagram.com/kunal011010/"><img alt="Instagram" src="https://img.shields.io/badge/kunal011010-blue?style=flat-square&logo=instagram"></a>
+  <a href="mailto:sahilverma.webdev@gmail.com"><img alt="Email" src="https://img.shields.io/badge/Email-kunal34255@gmail.com-blue?style=flat-square&logo=gmail"></a>
   
 </p>
 
