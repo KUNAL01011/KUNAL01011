@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>kunal@github</title>
 <style>
-  /* Single dark "CRT terminal" world. */
   :root{
     --bg:#0d1117; --bg2:#0a0e14; --frame:#30363d;
     --fg:#c9d1d9; --dim:#7d8590; --green:#39d353; --cyan:#22d3ee;
@@ -46,7 +45,6 @@
   .inrow{display:flex;gap:8px;align-items:baseline}
   .inrow .in{flex:1;min-width:0;background:transparent;border:0;outline:none;
     color:var(--fg);font:inherit;caret-color:var(--green)}
-  @media (prefers-reduced-motion:reduce){.cur{animation:none}}
 </style>
 </head>
 <body>
@@ -62,88 +60,64 @@
 const screen = document.getElementById('screen');
 const PROMPT = '<span class="prompt">kunal@github</span> <span class="path">~</span> <span class="prompt">$</span> ';
 
-const DATA = {
-  name:"Kunal Kumar",
-  role:"Fullstack Developer · AI Builder · Founder @ Kunamix",
-  github:"KUNAL01011",
-  links:[
-    ["Portfolio ","kunamix.com","https://www.kunamix.com"],
-    ["LinkedIn  ","kunal003","https://linkedin.com/in/kunal003"],
-    ["Instagram ","kunal011010","https://www.instagram.com/kunal011010"],
-    ["Twitter   ","Kunal_098","https://twitter.com/Kunal_098"],
-    ["Email     ","kunal34255@gmail.com","mailto:kunal34255@gmail.com"],
-    ["GitHub    ","KUNAL01011","https://github.com/KUNAL01011"],
-  ],
-  stack:["HTML5","CSS3","JavaScript","React","Next.js","Node.js","Express",
-         "Tailwind CSS","Bootstrap","Material UI","Git","GitHub"],
-};
-
-function esc(s){return s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
+function esc(s){return String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
 function out(html){const d=document.createElement('div');d.className='line';d.innerHTML=html;screen.appendChild(d);screen.scrollTop=screen.scrollHeight}
 
-const COMMANDS = {
-  help(){out(
-`<span class="hd">available commands</span>
-  <span class="ok">whoami</span>         who is this
-  <span class="ok">about</span>          a short bio
-  <span class="ok">skills</span>         tech stack
-  <span class="ok">links</span>          social + contact
-  <span class="ok">contributions</span>  github activity
-  <span class="ok">kunamix</span>        about the agency
-  <span class="ok">clear</span>          wipe the screen
-  <span class="ok">help</span>           this list
-<span class="dim">tip: use ↑ / ↓ for history, Tab to autocomplete</span>`)},
-  whoami(){out(`<span class="hd">${DATA.name}</span>\n<span class="dim">${DATA.role}</span>`)},
-  about(){out(
-`Hey — I'm <span class="hd">Kunal</span>. I build fullstack web apps and AI-powered
-products, and I run <span class="ok">Kunamix</span>. I like shipping quick, clean
-solutions and sharpening my DSA on the side.
-<span class="dim">Type </span><span class="ok">skills</span><span class="dim"> or </span><span class="ok">links</span><span class="dim"> to dig in.</span>`)},
-  skills(){const rows=DATA.stack.map(s=>`  <span class="ok">▸</span> ${s}`).join('\n');
-    out(`<span class="hd">tech stack</span>\n${rows}`)},
-  links(){const rows=DATA.links.map(([l,label,href])=>
-      `  ${l} <a href="${href}" target="_blank" rel="noopener">${esc(label)}</a>`).join('\n');
-    out(`<span class="hd">links</span>\n${rows}`)},
-  contributions(){out(
-`<span class="hd">github · @${DATA.github}</span>
-  contributions (last year) ...... <span class="ok">417</span>
-  active days ..................... <span class="ok">94</span>
-  longest streak ................. <span class="ok">9 days</span>
-  best day ....................... <span class="ok">21</span>
-<span class="dim">live graph auto-refreshes daily on the profile README.</span>`)},
-  kunamix(){out(
-`<span class="hd">Kunamix</span> — <a href="https://www.kunamix.com" target="_blank" rel="noopener">kunamix.com</a>
-  A studio building websites, web apps and AI products.
-  Founded & run by Kunal.`)},
-  clear(){screen.innerHTML=''},
-};
-const ALIASES={ls:'help',ll:'help',cat:'about',home:'whoami','?':'help'};
+/* ---- commands come from data/commands.json (edit that file to add more) ---- */
+let CMDS = {}, ORDER = [], PROFILE = {};
+const ALIASES = {ls:'help', ll:'help', cat:'about', home:'whoami', '?':'help'};
 
-function run(raw){
-  const cmd=raw.trim();
-  out(`<span>${PROMPT}</span>${esc(cmd)}`);
-  if(!cmd) return;
-  const key=cmd.toLowerCase().split(/\s+/)[0];
-  const name=COMMANDS[key]?key:(ALIASES[key]||null);
-  if(name&&COMMANDS[name]) COMMANDS[name]();
-  else out(`<span class="dim">command not found:</span> ${esc(key)} <span class="dim">— try </span><span class="ok">help</span>`);
+async function loadCommands(){
+  const res = await fetch('data/commands.json', {cache:'no-store'});
+  if(!res.ok) throw new Error('HTTP ' + res.status);
+  const data = await res.json();
+  PROFILE = data.profile || {};
+  CMDS = {}; ORDER = [];
+  (data.commands || []).forEach(c => { if(c && c.name){ CMDS[c.name] = c; ORDER.push(c.name); } });
 }
 
+function renderCmd(c){
+  const parts = [];
+  if(c.title) parts.push(`<span class="hd">${esc(c.title)}</span>`);
+  (c.lines || []).forEach(l => parts.push(esc(l)));
+  (c.links || []).forEach(k =>
+    parts.push(`  ${esc(k.label)}  <a href="${esc(k.url)}" target="_blank" rel="noopener">${esc(k.text || k.url)}</a>`));
+  out(parts.join('\n') || '<span class="dim">(empty command)</span>');
+}
+
+function showHelp(){
+  const rows = ORDER.map(n => `  <span class="ok">${esc(n)}</span>${' '.repeat(Math.max(1,14-n.length))}${esc((CMDS[n].desc)||'')}`);
+  rows.push(`  <span class="ok">help</span>          this list`);
+  rows.push(`  <span class="ok">clear</span>         wipe the screen`);
+  out(`<span class="hd">available commands</span>\n${rows.join('\n')}\n<span class="dim">tip: ↑ / ↓ history, Tab to autocomplete</span>`);
+}
+
+function run(raw){
+  const cmd = raw.trim();
+  out(`<span>${PROMPT}</span>${esc(cmd)}`);
+  if(!cmd) return;
+  let key = cmd.toLowerCase().split(/\s+/)[0];
+  if(ALIASES[key]) key = ALIASES[key];
+  if(key === 'help'){ showHelp(); return; }
+  if(key === 'clear'){ screen.innerHTML=''; return; }
+  if(CMDS[key]){ renderCmd(CMDS[key]); return; }
+  out(`<span class="dim">command not found:</span> ${esc(key)} <span class="dim">— try </span><span class="ok">help</span>`);
+}
+
+/* ---- live input line ---- */
 let history=[], hpos=-1;
 function newPrompt(){
-  const row=document.createElement('div');
-  row.className='line inrow';
+  const row=document.createElement('div'); row.className='line inrow';
   row.innerHTML=`<span>${PROMPT}</span>`;
   const inp=document.createElement('input');
   inp.className='in'; inp.autocapitalize='off'; inp.autocomplete='off';
   inp.spellcheck=false; inp.setAttribute('aria-label','terminal input');
-  row.appendChild(inp); screen.appendChild(row); screen.scrollTop=screen.scrollHeight;
-  inp.focus();
+  row.appendChild(inp); screen.appendChild(row); screen.scrollTop=screen.scrollHeight; inp.focus();
   inp.addEventListener('keydown',e=>{
     if(e.key==='Enter'){
       const v=inp.value; row.removeChild(inp);
-      const ghost=document.createElement('span'); ghost.textContent=v; row.appendChild(ghost);
-      if(v.trim()){history.push(v);} hpos=history.length;
+      const g=document.createElement('span'); g.textContent=v; row.appendChild(g);
+      if(v.trim()) history.push(v); hpos=history.length;
       run(v); newPrompt();
     } else if(e.key==='ArrowUp'){
       if(history.length){hpos=Math.max(0,hpos-1);inp.value=history[hpos]||'';
@@ -155,26 +129,34 @@ function newPrompt(){
     } else if(e.key==='Tab'){
       e.preventDefault();
       const part=inp.value.trim().toLowerCase();
-      const hit=Object.keys(COMMANDS).find(c=>c.startsWith(part));
+      const hit=[...ORDER,'help','clear'].find(c=>c.startsWith(part));
       if(hit) inp.value=hit;
     }
   });
 }
 screen.addEventListener('click',()=>{const i=screen.querySelector('input');if(i)i.focus()});
 
-const BOOT=[
-  '<span class="dim">Last login: now on ttys001</span>',
-  `<span class="ok">✓</span> loading profile for <span class="hd">${DATA.name}</span>`,
-  `<span class="dim">${DATA.role}</span>`,
-  '',
-  `<span class="dim">Type</span> <span class="ok">help</span> <span class="dim">to get started.</span>`,
-  '',
-];
-let bi=0;
-(function boot(){
-  if(bi<BOOT.length){out(BOOT[bi++]); setTimeout(boot,260);}
-  else newPrompt();
-})();
+/* ---- boot ---- */
+async function boot(){
+  let ok=true;
+  try{ await loadCommands(); }catch(e){ ok=false; }
+  const seq = ok ? [
+    '<span class="dim">Last login: now on ttys001</span>',
+    `<span class="ok">✓</span> loading profile for <span class="hd">${esc(PROFILE.name||'Kunal Kumar')}</span>`,
+    `<span class="dim">${esc(PROFILE.role||'')}</span>`,
+    '',
+    `<span class="dim">Type</span> <span class="ok">help</span> <span class="dim">to get started.</span>`,
+    ''
+  ] : [
+    '<span class="dim">Last login: now on ttys001</span>',
+    `<span class="dim">(could not load data/commands.json — open this page from the live site</span>`,
+    `<span class="dim"> or a local server, e.g. </span><span class="ok">python -m http.server</span><span class="dim">, so the file can be fetched)</span>`,
+    ''
+  ];
+  let i=0;
+  (function step(){ if(i<seq.length){ out(seq[i++]); setTimeout(step,240);} else newPrompt(); })();
+}
+boot();
 </script>
 </body>
 </html>

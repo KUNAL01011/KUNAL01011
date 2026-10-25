@@ -1,0 +1,72 @@
+{
+  "profile": {
+    "name": "Kunal Kumar",
+    "role": "Fullstack Developer · AI Builder · Founder @ Kunamix"
+  },
+  "_howto": "To ADD a command: copy one block in the list below, change its name/desc, and fill either lines (plain text) or links. help and clear are built in.",
+  "commands": [
+    {
+      "name": "whoami",
+      "desc": "who is this",
+      "title": "Kunal Kumar",
+      "lines": ["Fullstack Developer · AI Builder · Founder @ Kunamix"]
+    },
+    {
+      "name": "about",
+      "desc": "a short bio",
+      "lines": [
+        "Hey — I'm Kunal. I build fullstack web apps and AI-powered",
+        "products, and I run Kunamix. I like shipping quick, clean",
+        "solutions and sharpening my DSA on the side.",
+        "Type 'skills' or 'links' to dig in."
+      ]
+    },
+    {
+      "name": "skills",
+      "desc": "tech stack",
+      "title": "tech stack",
+      "lines": [
+        "HTML5, CSS3, JavaScript",
+        "React, Next.js, Node.js, Express",
+        "Tailwind CSS, Bootstrap, Material UI",
+        "Git, GitHub"
+      ]
+    },
+    {
+      "name": "links",
+      "desc": "social + contact",
+      "title": "links",
+      "links": [
+        { "label": "Portfolio", "text": "kunamix.com", "url": "https://www.kunamix.com" },
+        { "label": "LinkedIn ", "text": "kunal003", "url": "https://linkedin.com/in/kunal003" },
+        { "label": "Instagram", "text": "kunal011010", "url": "https://www.instagram.com/kunal011010" },
+        { "label": "Twitter  ", "text": "Kunal_098", "url": "https://twitter.com/Kunal_098" },
+        { "label": "Email    ", "text": "kunal34255@gmail.com", "url": "mailto:kunal34255@gmail.com" },
+        { "label": "GitHub   ", "text": "KUNAL01011", "url": "https://github.com/KUNAL01011" }
+      ]
+    },
+    {
+      "name": "contributions",
+      "desc": "github activity",
+      "title": "github · @KUNAL01011",
+      "lines": [
+        "contributions (last year) ...... 417",
+        "active days ..................... 94",
+        "longest streak ................. 9 days",
+        "best day ....................... 21"
+      ]
+    },
+    {
+      "name": "kunamix",
+      "desc": "about the agency",
+      "title": "Kunamix",
+      "lines": [
+        "A studio building websites, web apps and AI products.",
+        "Founded & run by Kunal."
+      ],
+      "links": [
+        { "label": "site", "text": "kunamix.com", "url": "https://www.kunamix.com" }
+      ]
+    }
+  ]
+}
