@@ -35,7 +35,7 @@
 [![Instagram](https://img.shields.io/badge/Instagram-kunal011010-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/kunal011010)
 [![Twitter](https://img.shields.io/badge/Twitter-Kunal__098-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/Kunal_098)
 [![Email](https://img.shields.io/badge/Email-kunal34255@gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:kunal34255@gmail.com)
-[![Live Terminal](https://img.shields.io/badge/⚡_Live_Terminal-kunal01011.github.io-22d3ee?style=for-the-badge&logo=gnometerminal&logoColor=black)](https://kunal01011.github.io)
+[![Live Terminal](https://img.shields.io/badge/⚡_Live_Terminal-kunal01011.github.io-22d3ee?style=for-the-badge&logo=gnometerminal&logoColor=black)](https://kunal01011.github.io/KUNAL01011/)
 
 <br>
 

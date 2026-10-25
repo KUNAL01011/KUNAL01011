@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>kunal@github</title>
+<style>
+  /* Single dark "CRT terminal" world. */
+  :root{
+    --bg:#0d1117; --bg2:#0a0e14; --frame:#30363d;
+    --fg:#c9d1d9; --dim:#7d8590; --green:#39d353; --cyan:#22d3ee;
+    --amber:#ffbd2e; --red:#ff5f56;
+    --mono:ui-monospace,SFMono-Regular,"SF Mono",Menlo,Consolas,"Liberation Mono",monospace;
+    color-scheme:dark;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    margin:0; background:var(--bg2); color:var(--fg);
+    font-family:var(--mono); font-size:15px; line-height:1.55;
+    display:flex; align-items:center; justify-content:center;
+    padding:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px));
+    padding-block:24px;
+  }
+  .win{
+    width:100%; max-width:820px; height:min(82vh,620px);
+    background:linear-gradient(180deg,#111722,var(--bg));
+    border:1px solid var(--frame); border-radius:12px;
+    box-shadow:0 20px 60px rgba(0,0,0,.5);
+    display:flex; flex-direction:column; overflow:hidden;
+  }
+  .bar{display:flex;align-items:center;gap:8px;padding:10px 14px;
+    border-bottom:1px solid var(--frame);background:rgba(255,255,255,.02);flex:0 0 auto}
+  .dot{width:12px;height:12px;border-radius:50%}
+  .dot.r{background:var(--red)} .dot.y{background:var(--amber)} .dot.g{background:var(--green)}
+  .bar .t{flex:1;text-align:center;color:var(--dim);font-size:12.5px;letter-spacing:.3px}
+  .screen{flex:1 1 auto;overflow-y:auto;padding:16px 18px 20px;min-width:0;
+    scrollbar-width:thin;scrollbar-color:var(--frame) transparent}
+  .screen::-webkit-scrollbar{width:9px}
+  .screen::-webkit-scrollbar-thumb{background:var(--frame);border-radius:6px}
+  .line{white-space:pre-wrap;word-break:break-word}
+  .prompt{color:var(--green)} .path{color:var(--cyan)} .dim{color:var(--dim)}
+  .ok{color:var(--green)} .hd{color:#e6edf3;font-weight:700}
+  a{color:var(--cyan);text-decoration:none;border-bottom:1px dotted var(--cyan)}
+  a:hover{color:var(--green);border-bottom-color:var(--green)}
+  .inrow{display:flex;gap:8px;align-items:baseline}
+  .inrow .in{flex:1;min-width:0;background:transparent;border:0;outline:none;
+    color:var(--fg);font:inherit;caret-color:var(--green)}
+  @media (prefers-reduced-motion:reduce){.cur{animation:none}}
+</style>
+</head>
+<body>
+<div class="win" id="win">
+  <div class="bar">
+    <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+    <span class="t">kunal@github: ~</span>
+  </div>
+  <div class="screen" id="screen" aria-live="polite"></div>
+</div>
+
+<script>
+const screen = document.getElementById('screen');
+const PROMPT = '<span class="prompt">kunal@github</span> <span class="path">~</span> <span class="prompt">$</span> ';
+
+const DATA = {
+  name:"Kunal Kumar",
+  role:"Fullstack Developer · AI Builder · Founder @ Kunamix",
+  github:"KUNAL01011",
+  links:[
+    ["Portfolio ","kunamix.com","https://www.kunamix.com"],
+    ["LinkedIn  ","kunal003","https://linkedin.com/in/kunal003"],
+    ["Instagram ","kunal011010","https://www.instagram.com/kunal011010"],
+    ["Twitter   ","Kunal_098","https://twitter.com/Kunal_098"],
+    ["Email     ","kunal34255@gmail.com","mailto:kunal34255@gmail.com"],
+    ["GitHub    ","KUNAL01011","https://github.com/KUNAL01011"],
+  ],
+  stack:["HTML5","CSS3","JavaScript","React","Next.js","Node.js","Express",
+         "Tailwind CSS","Bootstrap","Material UI","Git","GitHub"],
+};
+
+function esc(s){return s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]))}
+function out(html){const d=document.createElement('div');d.className='line';d.innerHTML=html;screen.appendChild(d);screen.scrollTop=screen.scrollHeight}
+
+const COMMANDS = {
+  help(){out(
+`<span class="hd">available commands</span>
+  <span class="ok">whoami</span>         who is this
+  <span class="ok">about</span>          a short bio
+  <span class="ok">skills</span>         tech stack
+  <span class="ok">links</span>          social + contact
+  <span class="ok">contributions</span>  github activity
+  <span class="ok">kunamix</span>        about the agency
+  <span class="ok">clear</span>          wipe the screen
+  <span class="ok">help</span>           this list
+<span class="dim">tip: use ↑ / ↓ for history, Tab to autocomplete</span>`)},
+  whoami(){out(`<span class="hd">${DATA.name}</span>\n<span class="dim">${DATA.role}</span>`)},
+  about(){out(
+`Hey — I'm <span class="hd">Kunal</span>. I build fullstack web apps and AI-powered
+products, and I run <span class="ok">Kunamix</span>. I like shipping quick, clean
+solutions and sharpening my DSA on the side.
+<span class="dim">Type </span><span class="ok">skills</span><span class="dim"> or </span><span class="ok">links</span><span class="dim"> to dig in.</span>`)},
+  skills(){const rows=DATA.stack.map(s=>`  <span class="ok">▸</span> ${s}`).join('\n');
+    out(`<span class="hd">tech stack</span>\n${rows}`)},
+  links(){const rows=DATA.links.map(([l,label,href])=>
+      `  ${l} <a href="${href}" target="_blank" rel="noopener">${esc(label)}</a>`).join('\n');
+    out(`<span class="hd">links</span>\n${rows}`)},
+  contributions(){out(
+`<span class="hd">github · @${DATA.github}</span>
+  contributions (last year) ...... <span class="ok">417</span>
+  active days ..................... <span class="ok">94</span>
+  longest streak ................. <span class="ok">9 days</span>
+  best day ....................... <span class="ok">21</span>
+<span class="dim">live graph auto-refreshes daily on the profile README.</span>`)},
+  kunamix(){out(
+`<span class="hd">Kunamix</span> — <a href="https://www.kunamix.com" target="_blank" rel="noopener">kunamix.com</a>
+  A studio building websites, web apps and AI products.
+  Founded & run by Kunal.`)},
+  clear(){screen.innerHTML=''},
+};
+const ALIASES={ls:'help',ll:'help',cat:'about',home:'whoami','?':'help'};
+
+function run(raw){
+  const cmd=raw.trim();
+  out(`<span>${PROMPT}</span>${esc(cmd)}`);
+  if(!cmd) return;
+  const key=cmd.toLowerCase().split(/\s+/)[0];
+  const name=COMMANDS[key]?key:(ALIASES[key]||null);
+  if(name&&COMMANDS[name]) COMMANDS[name]();
+  else out(`<span class="dim">command not found:</span> ${esc(key)} <span class="dim">— try </span><span class="ok">help</span>`);
+}
+
+let history=[], hpos=-1;
+function newPrompt(){
+  const row=document.createElement('div');
+  row.className='line inrow';
+  row.innerHTML=`<span>${PROMPT}</span>`;
+  const inp=document.createElement('input');
+  inp.className='in'; inp.autocapitalize='off'; inp.autocomplete='off';
+  inp.spellcheck=false; inp.setAttribute('aria-label','terminal input');
+  row.appendChild(inp); screen.appendChild(row); screen.scrollTop=screen.scrollHeight;
+  inp.focus();
+  inp.addEventListener('keydown',e=>{
+    if(e.key==='Enter'){
+      const v=inp.value; row.removeChild(inp);
+      const ghost=document.createElement('span'); ghost.textContent=v; row.appendChild(ghost);
+      if(v.trim()){history.push(v);} hpos=history.length;
+      run(v); newPrompt();
+    } else if(e.key==='ArrowUp'){
+      if(history.length){hpos=Math.max(0,hpos-1);inp.value=history[hpos]||'';
+        requestAnimationFrame(()=>inp.setSelectionRange(inp.value.length,inp.value.length));}
+      e.preventDefault();
+    } else if(e.key==='ArrowDown'){
+      if(history.length){hpos=Math.min(history.length,hpos+1);inp.value=history[hpos]||'';}
+      e.preventDefault();
+    } else if(e.key==='Tab'){
+      e.preventDefault();
+      const part=inp.value.trim().toLowerCase();
+      const hit=Object.keys(COMMANDS).find(c=>c.startsWith(part));
+      if(hit) inp.value=hit;
+    }
+  });
+}
+screen.addEventListener('click',()=>{const i=screen.querySelector('input');if(i)i.focus()});
+
+const BOOT=[
+  '<span class="dim">Last login: now on ttys001</span>',
+  `<span class="ok">✓</span> loading profile for <span class="hd">${DATA.name}</span>`,
+  `<span class="dim">${DATA.role}</span>`,
+  '',
+  `<span class="dim">Type</span> <span class="ok">help</span> <span class="dim">to get started.</span>`,
+  '',
+];
+let bi=0;
+(function boot(){
+  if(bi<BOOT.length){out(BOOT[bi++]); setTimeout(boot,260);}
+  else newPrompt();
+})();
+</script>
+</body>
+</html>
